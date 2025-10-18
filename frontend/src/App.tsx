@@ -1,35 +1,49 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
+import {type FC, useEffect} from 'react'
 import './App.css'
+import {ConfigProvider, theme} from "antd";
+import {BrowserRouter, Route, Routes} from "react-router";
+import Footer from "./layout/Footer.tsx";
+import Sidebar from "./layout/Sidebar.tsx";
+import {useTheme} from "./hooks/ussTheme.tsx";
+import Navbar from "./layout/Navbar.tsx";
+import HomePage from "./pages/HomePage.tsx";
+import SendFeedbackPage from "./pages/FeedbackPage.tsx";
 
-function App() {
-  const [count, setCount] = useState(0)
+const App: FC = () => {
+    const { isDark } = useTheme();
 
-  return (
-    <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
-  )
+    useEffect(() => {
+        document.documentElement.classList.toggle('dark', isDark);
+        localStorage.setItem('theme', isDark ? 'dark' : 'light');
+    }, [isDark]);
+
+    return (
+        <ConfigProvider
+            theme={{
+                algorithm: isDark ? theme.darkAlgorithm : theme.defaultAlgorithm,
+                token: {
+                    colorPrimary: '#635dff',
+                    colorBgBase: isDark ? '#171923' : '#fff',
+                },
+            }}
+        >
+            <BrowserRouter>
+                <div className="min-h-screen flex flex-col bg-gray-100 dark:bg-gray-900">
+                    <Navbar/>
+                    <div className="flex flex-1">
+                        <Sidebar />
+                        <main className="flex-1 p-6">
+                            <Routes>
+                                <Route path="/" element={<HomePage />} />
+                                <Route path="/send-feedback" element={<SendFeedbackPage />} />
+                            </Routes>
+                        </main>
+                    </div>
+                    <Footer />
+                </div>
+            </BrowserRouter>
+        </ConfigProvider>
+    );
 }
 
 export default App
