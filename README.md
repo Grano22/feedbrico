@@ -14,6 +14,10 @@ mvn clean install package # Only once
 SPRING_PROFILES_ACTIVE=dev mvn spring-boot:run
 ```
 
+```powershell
+$env:SPRING_PROFILES_ACTIVE = 'dev'; mvn spring-boot:run
+```
+
 ## 🧩 Implementation considerations/notes
 
 * To implement professional-grade CQRS I can use an Axon framework, but it is designed for large-scale applications, so I picked a built-in Spring application event listener and publisher.
