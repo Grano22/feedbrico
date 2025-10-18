@@ -4,6 +4,7 @@ import io.github.grano22.feedbrico.feedbackcollection.api.contract.FeedbackSubmi
 import io.github.grano22.feedbrico.feedbackcollection.api.contract.FeedbackSubmissionResponse;
 import io.github.grano22.feedbrico.feedbackcollection.application.FeedbackSubmitter;
 import io.github.grano22.feedbrico.feedbackcollection.domain.CustomerFeedback;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,7 +22,7 @@ public class FeedbackController {
     }
 
     @PostMapping
-    public FeedbackSubmissionResponse submit(@RequestBody FeedbackSubmissionRequest request) {
+    public FeedbackSubmissionResponse submit(@RequestBody @Validated FeedbackSubmissionRequest request) {
         var feedback = new CustomerFeedback(UUID.randomUUID(), request.name(), request.email(), request.message());
 
         this.feedbackSubmitter.submit(feedback);
