@@ -1,5 +1,21 @@
 # Feedbrico - a small feedback application
 
+## 🏙️ Preview
+
+### Feedback form
+
+![Feedback form](./documentation/app_preview/feedback_submission_form.jpg)
+
+### Feedback form submission error
+
+![Feedback submission error](./documentation/app_preview/feedback_submission_form_error.jpg)
+
+### Feedback form submission success popup
+
+![Feedback submission success](./documentation/app_preview/feedback_submission_form_success_popup.jpg)
+
+---
+
 ## 🚀 How to run the app in the development mode?
 
 Front-end:
@@ -16,6 +32,12 @@ SPRING_PROFILES_ACTIVE=dev mvn spring-boot:run
 
 ```powershell
 $env:SPRING_PROFILES_ACTIVE = 'dev'; mvn spring-boot:run
+```
+
+## 🧪 How to run tests?
+
+```shell
+mvn test
 ```
 
 ## 🧩 Implementation considerations/notes

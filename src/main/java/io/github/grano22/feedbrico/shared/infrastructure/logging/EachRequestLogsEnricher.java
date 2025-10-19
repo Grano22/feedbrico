@@ -7,7 +7,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.lang.NonNull;
-import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
 import java.io.IOException;
@@ -15,7 +14,6 @@ import java.security.Principal;
 import java.util.Optional;
 import java.util.UUID;
 
-@Component
 public class EachRequestLogsEnricher extends OncePerRequestFilter {
     private static final Logger logger = LoggerFactory.getLogger(EachRequestLogsEnricher.class);
 
@@ -48,6 +46,18 @@ public class EachRequestLogsEnricher extends OncePerRequestFilter {
             LoggerContext.clearGlobalDetails();
         }
 
+        try {
+            logger.info("Request: {} {}", request.getMethod(), request.getRequestURI());
+        } catch (Throwable t) {
+            logger.error("Failed to log request", t);
+        }
+
         filterChain.doFilter(request, response);
+
+        try {
+            logger.info("Response for {}: {}", request.getRequestURI(), response.getStatus());
+        } catch (Throwable t) {
+            logger.error("Failed to log response", t);
+        }
     }
 }
